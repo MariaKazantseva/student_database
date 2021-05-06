@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'languages.apps.LanguagesConfig',
     'levels.apps.LevelsConfig',
+    'instructors.apps.InstructorsConfig',
 ]
 
 MIDDLEWARE = [
