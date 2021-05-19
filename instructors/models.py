@@ -15,6 +15,11 @@ class Instructors(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta():
+        verbose_name = "Instructor"
+        verbose_name_plural = "Instructors"
+        ordering = ["name"]
+
 
 
 

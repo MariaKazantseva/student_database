@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'languages.apps.LanguagesConfig',
     'levels.apps.LevelsConfig',
     'instructors.apps.InstructorsConfig',
+    'students.apps.StudentsConfig',
+    'classes.apps.ClassesConfig',
+    'revenue.apps.RevenueConfig',
+    'phone_field',
 ]
 
 MIDDLEWARE = [
