@@ -1,12 +1,20 @@
 from django.contrib import admin
 from .models import Students
 from .models import Contacts
+from revenue.models import Revenue
+from classes.admin import MembershipInline
+
+
+class RevenueInline(admin.TabularInline):
+    model = Revenue
 
 
 class StudentsAdmin(admin.ModelAdmin):
     list_display = ["name", "age", "grade"]
     search_fields = ["name", "country"]
     list_filter = ["age", "grade"]
+    inlines = [RevenueInline, MembershipInline]
+
 
 class ContactsAdmin(admin.ModelAdmin):
     list_display = ["email", "whatsapp", "social_media"]
@@ -14,4 +22,3 @@ class ContactsAdmin(admin.ModelAdmin):
 
 admin.site.register(Students, StudentsAdmin)
 admin.site.register(Contacts, ContactsAdmin)
-

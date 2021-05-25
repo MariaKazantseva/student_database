@@ -2,6 +2,7 @@ from django.db import models
 from phone_field import PhoneField
 
 
+
 class Students(models.Model):
     your_gender = [('m', 'male'), ('f', 'female'), ('n', 'not specified')]
     name = models.CharField(max_length=200, verbose_name="ФИО")

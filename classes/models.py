@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 from languages.models import Languages
 from students.models import Students
 from instructors.models import Instructors
@@ -12,7 +13,13 @@ class Classes(models.Model):
     students = models.ManyToManyField(Students, verbose_name="Студенты")
     instructors = models.ForeignKey(Instructors, on_delete=models.CASCADE, null=True, verbose_name="Преподаватель")
 
+    @admin.display(description="Образование")
+    def education(self):
+        return self.instructors.education
 
+    @admin.display(description="Количество студентов", ordering="-count_students")
+    def count_students(self):
+        return self.students.count()
 
     def __str__(self):
         return self.name
