@@ -1,6 +1,7 @@
+from django.contrib import admin
 from django.db import models
+from django.db.models import Sum
 from phone_field import PhoneField
-
 
 
 class Students(models.Model):
@@ -12,6 +13,10 @@ class Students(models.Model):
     education = models.CharField(max_length=100, verbose_name="Образование")
     profession = models.CharField(max_length=100, verbose_name="Профессия")
     grade = models.IntegerField(default=0, verbose_name="Класс в школе")
+
+    @admin.display(description="Сумма")
+    def count_money(self):
+        return Students.objects.filter(people__student=self).aggregate(mySum=Sum('people__amount'))['mySum'] or 0.0
 
     def __str__(self):
         return self.name
