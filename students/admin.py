@@ -12,7 +12,7 @@ class RevenueInline(admin.TabularInline):
 class StudentsAdmin(admin.ModelAdmin):
     list_display = ["name", "age", "grade", "count_money"]
     search_fields = ["name", "country"]
-    list_filter = ["age", "grade"]
+    list_filter = ["grade"]
     inlines = [RevenueInline, MembershipInline]
 
 

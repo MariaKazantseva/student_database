@@ -3,7 +3,7 @@ from .models import Revenue
 
 
 class RevenueAdmin(admin.ModelAdmin):
-    list_display = ["date", "student", "classes", "amount"]
+    list_display = ["date", "paid_for", "student", "classes", "amount", "debtor"]
 
 
 

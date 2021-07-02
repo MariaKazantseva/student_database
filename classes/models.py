@@ -7,6 +7,7 @@ from django.contrib import admin
 from languages.models import Languages
 from students.models import Students
 from instructors.models import Instructors
+from levels.models import Levels
 
 
 class Classes(models.Model):
@@ -19,6 +20,7 @@ class Classes(models.Model):
     instructors = models.ForeignKey(Instructors, on_delete=models.CASCADE, null=True, verbose_name="Преподаватель")
     start_date = models.DateField(verbose_name="Дата начала", null=True, blank=True)
     end_date = models.DateField(verbose_name="Дата окончания", null=True, blank=True)
+    level = models.ForeignKey(Levels, verbose_name='Уровень', on_delete=models.CASCADE, null=True)
 
     @admin.display(description="Образование")
     def education(self):

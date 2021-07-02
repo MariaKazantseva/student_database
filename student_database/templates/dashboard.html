@@ -39,7 +39,7 @@
                         <div class="card-body p-2">
 <!--                            <div class="ct-chart-sales-value ct-double-octave ct-series-g"></div>-->
                             <div class="revenue-chart"></div>
-                            <div class="students-chart"></div>
+                            <div class="revenue-per-year-chart"></div>
                         </div>
                     </div>
                 </div>
@@ -487,8 +487,8 @@
 {% block javascript %}
 <script>
 new Chartist.Line('.revenue-chart', {
-    labels: {{ labels|safe }},
-    series: {{ series }}
+    labels: {{ chart_revenue.labels|safe }},
+    series: [{{ chart_revenue.series }}]
     }, {
     fullWidth: true,
     chartPadding: {
@@ -498,13 +498,13 @@ new Chartist.Line('.revenue-chart', {
         Chartist.plugins.tooltip()
     ]
 });
-new Chartist.Line('.students-chart', {
-  labels: {{ months|safe }},
-  series: {{ students_num }}
+new Chartist.Bar('.revenue-per-year-chart', {
+  labels: {{ chart_revenue_per_year.labels|safe }},
+  series: {{ chart_revenue_per_year.series }}
   }, {
-  low: 0,
-  showArea: true
+  distributeSeries: true
 });
+
 </script>
 {% endblock javascript %}
 

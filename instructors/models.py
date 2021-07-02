@@ -10,7 +10,6 @@ class Instructors(models.Model):
     country = models.CharField(max_length=100, default="Russia", verbose_name="Страна")
     specialization = models.CharField(max_length=100, verbose_name="Специализация")
     languages = models.ManyToManyField(Languages)
-    levels = models.ManyToManyField(Levels)
     education = models.CharField(max_length=100, verbose_name="Образование")
     activity = models.BooleanField(default=True, verbose_name="Активность")
 
