@@ -27434,7 +27434,7 @@ label {
 
 .ct-chart-pie .ct-label,
 .ct-chart-donut .ct-label {
-    font-size: 0.75rem;
+    font-size: 0.6rem;
     font-weight: 600;
 }
 
@@ -27446,7 +27446,7 @@ label {
 .ct-chart-donut .ct-label {
     color: #ffffff;
     fill: #ffffff;
-    font-size: 1rem;
+    font-size: 0.7rem;
     font-weight: 600;
 }
 
