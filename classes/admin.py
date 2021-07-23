@@ -13,7 +13,7 @@ class MembershipInline(admin.TabularInline):
 
 
 class ClassesAdmin(admin.ModelAdmin):
-    list_display = ("groups_details", "instructors", "education", "count_students", "money")
+    list_display = ("groups_details", "instructors", "education", "count_students", "money", "level")
     filter_horizontal = ["students"]
     inlines = [RevenueInline]
     form = ClassesForm

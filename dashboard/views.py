@@ -15,12 +15,11 @@ def dashboard(request):
         'students_per_months': students_per_month(date.today()),
         'rev_per_month': rev_per_month(date.today()),
         'percentage_of_students': group_type_percent(date.today()),
-        'revenue_per_teacher': revenue_per_teacher(date.today()),
         'revenue_per_lang': revenue_per_lang(date.today()),
         'vip_students': vip_students(date.today()),
         'perc_students_lang': perc_stud_lang(date.today()),
-        'money_per_age': rev_per_age(date.today()),
-        'money_per_lev': revenue_per_level(date.today()),
+        'highlighted': 'dashboard',
+        'title': 'Dashboard',
     }
     return TemplateResponse(request, "dashboard.html", params)
 
@@ -123,11 +122,6 @@ def group_type_percent(current_date):
     }
 
 
-def revenue_per_teacher(current_date):
-    return Revenue.objects.filter(
-        paid_for__month=current_date.month, paid_for__year=current_date.year).values(
-        'classes__instructors__name').annotate(mysum=Sum('amount')).order_by('-mysum')
-
 
 def revenue_per_lang(current_date):
     rev_per_lang = Revenue.objects.filter(paid_for__month=current_date.month,
@@ -174,29 +168,6 @@ def perc_stud_lang(current_date):
     return students_per_languages_chart
 
 
-def rev_per_age(current_date):
-    money_per_age = Revenue.objects.filter(paid_for__year=current_date.year).values('student__name', 'student__age').annotate(
-        mysum=Sum('amount')).order_by()
-    result = {'school_students': 0, 'ЕГЭ': 0, 'adult_students': 0}
-    for i in money_per_age:
-        age = get_age(i['student__age'], current_date)
-        if age < 16:
-            result['school_students'] += i['mysum']
-        elif age > 18:
-            result['adult_students'] += i['mysum']
-        else:
-            result['ЕГЭ'] += i['mysum']
-    #print(result)
-    return result
-
-
-def get_age(birthday, current_date):
-    res = current_date.year - birthday.year
-    check_birthday = (current_date.month, current_date.day) < (birthday.month, birthday.day)
-    if check_birthday:
-        res -= 1
-    return res
-
 
 def vip_per_time(current_date):
     start_date = date(current_date.year - 2, current_date.month, current_date.day)
@@ -204,19 +175,7 @@ def vip_per_time(current_date):
     vip_people_time = Revenue.objects.filter(paid_for__range=(start_date, end_date)).values('student')
 
 
-def revenue_per_level(current_date):
-    rev_per_lev = Revenue.objects.filter(
-        paid_for__month=current_date.month, paid_for__year=current_date.year).values(
-        'classes__level__name').annotate(mysum=Sum('amount')).order_by('-mysum')
-    result = {'labels': [], 'series': []}
-    a = 0
-    for i in rev_per_lev:
-        a += i['mysum']
-    for i in rev_per_lev:
-        result['series'].append(round(i['mysum'] * 100 / a))
-        result['labels'].append(i['classes__level__name'])
-    print(result)
-    return result
+
 
 
 
