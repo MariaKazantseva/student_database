@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from collections import Counter
 from django.db.models import Sum, Count
@@ -9,6 +10,7 @@ from revenue.models import Revenue
 from django.shortcuts import render
 
 
+@login_required
 def main(request):
     params = {
         'money_per_lev': revenue_per_level(date.today()),
@@ -24,13 +26,18 @@ def revenue_per_level(current_date):
         paid_for__month=current_date.month, paid_for__year=current_date.year).values(
         'classes__level__name').annotate(mysum=Sum('amount')).order_by('-mysum')
     result = {'labels': [], 'series': []}
+    print(rev_per_lev)
     a = 0
     for i in rev_per_lev:
         a += i['mysum']
     for i in rev_per_lev:
-        result['series'].append(round(i['mysum'] * 100 / a))
+        result['series'].append(0 if a == 0 else round(i['mysum'] * 100 / a))
         result['labels'].append(i['classes__level__name'])
-    return result
+    print(result)
+    return {
+        'result_percent': result,
+        'result_money': rev_per_lev,
+            }
 
 
 def rev_per_age(current_date):
@@ -51,7 +58,10 @@ def rev_per_age(current_date):
         final_result['series'].append(result[i])
         final_result['labels'].append(i)
     print(final_result)
-    return final_result
+    return {
+        'final_result': final_result,
+        'max_value': (max(final_result['series'])) + 20000,
+    }
 
 
 def get_age(birthday, current_date):
@@ -60,6 +70,7 @@ def get_age(birthday, current_date):
     if check_birthday:
         res -= 1
     return res
+
 
 
 

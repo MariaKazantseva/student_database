@@ -1,1 +1,48 @@
 {% extends "layouts/base.html" %}
+{% block content %}
+<div class="card card-body shadow border-0 table-wrapper table-responsive">
+    <div class="d-flex mb-3">
+        <button class="btn btn-sm px-3 btn-secondary ms-3">
+        VIP Students
+        </button>
+    </div>
+    <table class="table user-table table-hover align-items-center">
+        <thead>
+            <tr>
+                <th class="border-bottom">
+                    Student's Name
+                </th>
+                <th class="border-bottom">
+                    Country
+                </th>
+                <th class="border-bottom">
+                    Current month payment
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for i in vip_students  %}
+            <tr>
+                <td>
+                    <span class="fw-bold">
+                        {{ i.student__name }}
+                    </span>
+                </td>
+                <td>
+                    <span class="fw-normal">
+                        {{ i.student__email }}
+                    </span>
+                </td>
+                <td>
+                    <span class="fw-normal d-flex align-items-center">
+                        {{i.mesum}}
+                    </span>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
+{%block javascript%}
+{%endblock javascript%}

@@ -1,9 +1,25 @@
 {% extends "layouts/base.html" %}
+{% block styles %}
+<style>
+    .card_head_height {
+        height: 145px;
+    }
+
+    .chart_height {
+        height: 350px;
+    }
+
+    .ct-bar {
+        stroke-width: 20px;
+    }
+
+</style>
+{% endblock styles %}
 {% block content %}
     <div class="row">
         <div class="col-12 col-xl-6 col-xxl-4 mb-4">
             <div class="card border-0 shadow">
-                <div class="card-body d-flex flex-row align-items-center flex-0 border-bottom">
+                <div class="card-body d-flex flex-row align-items-center flex-0 border-bottom card_head_height ">
                     <div class="d-block">
                         <div class="h6 fw-normal text-gray mb-2">
                         </div>
@@ -11,19 +27,44 @@
                             Revenue per level (English)
                         </h2><div class="small mt-2">
                         <span class="fas fa-angle-up text-success"></span>
-                        <span class="text-success fw-bold">51.5%</span></div></div><div class="ms-auto"><div class="d-flex align-items-center mb-2"><span class="fw-normal small me-3">Direct</span> <span class="small fw-bold text-dark ms-auto">51.50%</span></div><div class="d-flex align-items-center mb-2"><span class="fw-normal small me-3">Referrals</span> <span class="small fw-bold text-dark ms-auto">29.40%</span></div><div class="d-flex align-items-center mb-2"><span class="fw-normal small me-3">Organic</span> <span class="small fw-bold text-dark ms-auto">9.10%</span></div><div class="d-flex align-items-center mb-2"><span class="fw-normal small me-3">Social</span> <span class="small fw-bold text-dark ms-auto">6.50%</span></div><div class="d-flex align-items-center mb-2"><span class="fw-normal small me-3">Mail</span> <span class="small fw-bold text-dark ms-auto">3.50%</span></div></div></div>
+                        <span class="text-success fw-bold">51.5%</span></div></div><div class="ms-auto">
+                    {% for i in money_per_lev.result_money  %}
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="fw-normal small me-3">
+                            {{ i.classes__level__name }}
+                        </span>
+                        <span class="small fw-bold text-dark ms-auto">
+                            ${{ i.mysum }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="fw-normal small me-3"></span>
+                        <span class="small fw-bold text-dark ms-auto"></span>
+                    </div>
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="fw-normal small me-3"></span>
+                        <span class="small fw-bold text-dark ms-auto"></span>
+                    </div>
+                </div>
+                </div>
                 <div class="card-body p-2 py-5" style="position: relative;">
-                <div class="ct-chart"></div>
-                <div class="resize-triggers"><div class="expand-trigger"><div style="width: 475px; height: 612px;"></div></div><div class="contract-trigger"></div></div></div></div></div><div class="col-12 col-xl-6 col-xxl-8 mb-4"><div class="card border-0 shadow"><div class="card-body d-flex flex-row align-items-center flex-0 border-bottom"><div class="w-100 d-sm-flex justify-content-between align-items-start"><div><div class="fs-5 fw-normal mb-2">Traffic Volumes by Source</div><h2 class="fs-3 fw-extrabold">Direct</h2><div class="small mt-2 d-flex"><div class="d-flex align-items-center me-2"><svg class="icon icon-xs text-success" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg> <span class="text-success fw-bold">180k</span></div><div class="d-flex align-items-center"><svg class="icon icon-xxs text-gray-500 me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"></path></svg> <span>WorldWide</span></div></div></div><div class="d-xxl-flex flex-wrap justify-content-end mt-4 mt-sm-0"><div class="d-flex align-items-center mb-2 me-3 lh-130"><span class="dot rounded-circle bg-warning me-2"></span> <span class="fw-normal small">Direct</span> <span class="small fw-bold text-dark ms-1">70k</span></div><div class="d-flex align-items-center mb-2 me-3 lh-130"><span class="dot rounded-circle bg-success me-2"></span> <span class="fw-normal small">Refferals</span> <span class="small fw-bold text-dark ms-1">65k</span></div><div class="d-flex align-items-center mb-2 me-3 lh-130"><span class="dot rounded-circle bg-tertiary me-2"></span> <span class="fw-normal small">Organic</span> <span class="small fw-bold text-dark ms-1">45k</span></div></div></div></div>
+                    <div class="ct-chart chart_height "></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-xl-6 col-xxl-8 mb-4">
+            <div class="card border-0 shadow">
+            <div class="card-body d-flex flex-row align-items-center flex-0 border-bottom card_head_height"><div class="w-100 d-sm-flex justify-content-between align-items-start"><div><div class="fs-5 fw-normal mb-2"></div><h2 class="fs-3 fw-extrabold">Revenue by age group</h2><div class="small mt-2 d-flex"><div class="d-flex align-items-center me-2"><svg class="icon icon-xs text-success" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg> <span class="text-success fw-bold">180k</span></div><div class="d-flex align-items-center"><svg class="icon icon-xxs text-gray-500 me-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clip-rule="evenodd"></path></svg> <span>WorldWide</span></div></div></div><div class="d-xxl-flex flex-wrap justify-content-end mt-4 mt-sm-0"><div class="d-flex align-items-center mb-2 me-3 lh-130"><span class="dot rounded-circle bg-warning me-2"></span> <span class="fw-normal small">Direct</span> <span class="small fw-bold text-dark ms-1">70k</span></div><div class="d-flex align-items-center mb-2 me-3 lh-130"><span class="dot rounded-circle bg-success me-2"></span> <span class="fw-normal small">Refferals</span> <span class="small fw-bold text-dark ms-1">65k</span></div><div class="d-flex align-items-center mb-2 me-3 lh-130"><span class="dot rounded-circle bg-tertiary me-2"></span> <span class="fw-normal small">Advanced</span> <span class="small fw-bold text-dark ms-1">${{ money_per_lev.result3 }}</span></div></div></div></div>
         <div class="card-body p-2 pb-4" style="position: relative;">
             <div class="revenue-age"></div>
-            <div class="resize-triggers"><div class="expand-trigger"><div style="width: 475px; height: 468px;"></div></div><div class="contract-trigger"></div></div></div></div></div></div>
+            </div></div></div>
 {% endblock content %}
 {%block javascript%}
 <script>
 var chart = new Chartist.Pie('.ct-chart', {
-  labels: {{ money_per_lev.labels|safe }},
-  series: {{ money_per_lev.series|safe  }}
+  labels: {{ money_per_lev.result_percent.labels|safe }},
+  series: {{ money_per_lev.result_percent.series|safe  }}
 }, {
   donut: true,
   showLabel: true
@@ -76,26 +117,18 @@ chart.on('created', function() {
 });
 
 var second_chart = new Chartist.Bar('.revenue-age', {
-  labels: {{ money_per_age.labels|safe }},
-  series: [{{ money_per_age.series|safe  }}]
+  labels: {{ money_per_age.final_result.labels|safe }},
+  series: [{{ money_per_age.final_result.series|safe  }}]
 }, {
-  high: 10,
-  low: -10,
-  axisX: {
-    labelInterpolationFnc: function(value, index) {
-      return index % 2 === 0 ? value : null;
-    }
-  }
+  high: {{ money_per_age.max_value }},
+  low: 0,
 });
-// Listen for draw events on the bar chart
 second_chart.on('draw', function(data) {
-  // If this draw event is of type bar we can use the data to create additional content
   if(data.type === 'bar') {
-    // We use the group element of the current series to append a simple circle with the bar peek coordinates and a circle radius that is depending on the value
     data.group.append(new Chartist.Svg('circle', {
       cx: data.x2,
       cy: data.y2,
-      r: Math.abs(Chartist.getMultiValue(data.value)) * 2 + 5
+      r: Math.abs(Chartist.getMultiValue(data.value)) * 0.0002 + 5
     }, 'ct-slice-pie'));
   }
 });

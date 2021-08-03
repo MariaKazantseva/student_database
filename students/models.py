@@ -13,6 +13,9 @@ class Students(models.Model):
     education = models.CharField(max_length=100, verbose_name="Образование")
     profession = models.CharField(max_length=100, verbose_name="Профессия")
     grade = models.IntegerField(default=0, verbose_name="Класс в школе")
+    email = models.EmailField(max_length=254, verbose_name="e-mail address", blank=True)
+    whatsapp = PhoneField(blank=True)
+    social_media = models.URLField(verbose_name="social media links", blank=True)
 
     @admin.display(description="Сумма")
     def count_money(self):
@@ -26,14 +29,4 @@ class Students(models.Model):
         verbose_name_plural = "Students"
 
 
-class Contacts(models.Model):
-    email = models.EmailField(max_length=254, verbose_name="e-mail address")
-    whatsapp = PhoneField()
-    social_media = models.URLField(verbose_name="social media links")
 
-    def __str__(self):
-        return self.email, self.whatsapp
-
-    class Meta():
-        verbose_name = "Contact"
-        verbose_name_plural = "Contacts"

@@ -1,4 +1,11 @@
 {% extends "layouts/base.html" %}
+{% block styles %}
+<style>
+    .chart_height {
+        height: 126px;
+    }
+</style>
+{% endblock styles %}
 {% block content %}
             <div class="row justify-content-md-center">
                 <div class="col-12 mb-4">
@@ -85,12 +92,11 @@
                 <div class="col-12 col-sm-6 col-xl-4 mb-4">
                     <div class="card border-light shadow-sm">
                         <div class="card-body">
-                            <div class="row d-block d-xl-flex align-items-center">
-                                <div class="col-12 col-xl-5 text-xl-center mb-3 mb-xl-0 d-flex align-items-center justify-content-xl-center">
-                                </div>
-                                <div class="col-12 col-xl-7 px-xl-0">
-                                    <h2 class="h5 mb-3"> Revenue per language </h2>
-                                    <div class="pie-chart-lang"></div>
+                            <div class="row d-block d-xl-flex align-items-center"></div>
+                                <div class="col-12 col-xl-7 px-xl-0 chart_height">
+                                    <h2 class="h5 mb-3">
+                                        Revenue per language
+                                    </h2><div class="pie-chart-lang"></div>
                                 </div>
                             </div>
                         </div>
@@ -118,33 +124,18 @@ new Chartist.Bar('.revenue-per-year-chart', {
   }, {
   distributeSeries: true
 });
-var data = {
+
+new Chartist.Pie('.pie-chart-lang', {
   labels: {{ revenue_per_lang.labels|safe }},
   series: {{ revenue_per_lang.series }}
-};
-
-var options = {
-  labelInterpolationFnc: function(value) {
-    return value[0]
-  }
-};
-
-var responsiveOptions = [
-  ['screen and (min-width: 768px)', {
-    chartPadding: 100,
-    labelOffset: 100,
-    labelDirection: 'neutral',
-    labelInterpolationFnc: function(value) {
-      return value;
-    }
-  }],
-  ['screen and (min-width: 768px)', {
-    labelOffset: 6,
-    chartPadding: 0
-  }]
-];
-
-new Chartist.Pie('.pie-chart-lang', data, options, responsiveOptions);
+}, {
+  donut: true,
+  donutWidth: 60,
+  donutSolid: false,
+  startAngle: 270,
+  total: 200,
+  showLabel: true
+});
 </script>
 {% endblock javascript %}
 

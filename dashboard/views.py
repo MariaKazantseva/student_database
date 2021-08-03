@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from collections import Counter
 from django.db.models import Sum, Count
@@ -16,7 +17,6 @@ def dashboard(request):
         'rev_per_month': rev_per_month(date.today()),
         'percentage_of_students': group_type_percent(date.today()),
         'revenue_per_lang': revenue_per_lang(date.today()),
-        'vip_students': vip_students(date.today()),
         'perc_students_lang': perc_stud_lang(date.today()),
         'highlighted': 'dashboard',
         'title': 'Dashboard',
@@ -117,10 +117,9 @@ def group_type_percent(current_date):
         else:
             count_g += 1
     return {
-        'i': round(100 * count_i / (count_g + count_i), 1),
-        'g': round(100 * count_g / (count_g + count_i), 1),
+        'i': 0 if count_g + count_i == 0 else round(100 * count_i / (count_g + count_i), 1),
+        'g': 0 if count_g + count_i == 0 else round(100 * count_g / (count_g + count_i), 1),
     }
-
 
 
 def revenue_per_lang(current_date):
@@ -132,23 +131,13 @@ def revenue_per_lang(current_date):
         sum_lang += i['mysum']
     result = {'labels': [], 'series': []}
     for i in rev_per_lang:
-        result['series'].append(round(i['mysum'] * 100 / sum_lang))
+        result['series'].append(0 if sum_lang == 0 else round(i['mysum'] * 100 / sum_lang))
         result['labels'].append(i['classes__language__name'])
     print(result)
     return result
 
 
-def vip_students(current_date):
-    profitable_students = Revenue.objects.filter(
-        paid_for__month=current_date.month, paid_for__year=current_date.year).values(
-        'student__name', 'classes__pk').distinct()
-    vip_people, result = [], []
-    for i in profitable_students:
-        vip_people.append(i['student__name'])
-        for n in vip_people:
-            if vip_people.count(n) > 1:
-                result.append(n)
-    return set(result)
+
 
 
 def perc_stud_lang(current_date):
