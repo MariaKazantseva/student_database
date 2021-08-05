@@ -48,7 +48,6 @@ class Classes(models.Model):
         if not self.start_date and self.end_date:
             raise ValidationError({'start_date': _('Input start date')})
 
-
     def __str__(self):
         year = datetime.strftime(self.start_date, "%Y") if self.start_date else "0000"
         temp = f"{year}.{self.type.upper()}."
@@ -57,6 +56,6 @@ class Classes(models.Model):
         else:
             return f"{temp}{str(self.pk).zfill(4)}"
 
-    class Meta():
+    class Meta:
         verbose_name = "Class"
         verbose_name_plural = "Classes"

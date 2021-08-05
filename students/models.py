@@ -11,7 +11,7 @@ class Students(models.Model):
     gender = models.CharField(max_length=1, choices=your_gender)
     age = models.DateField()
     education = models.CharField(max_length=100, verbose_name="Образование")
-    profession = models.CharField(max_length=100, verbose_name="Профессия")
+    additional_info = models.TextField(max_length=10000, verbose_name="Дополнительная информация", null=True, blank=True)
     grade = models.IntegerField(default=0, verbose_name="Класс в школе")
     email = models.EmailField(max_length=254, verbose_name="e-mail address", blank=True)
     whatsapp = PhoneField(blank=True)

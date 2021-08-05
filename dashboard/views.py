@@ -157,7 +157,6 @@ def perc_stud_lang(current_date):
     return students_per_languages_chart
 
 
-
 def vip_per_time(current_date):
     start_date = date(current_date.year - 2, current_date.month, current_date.day)
     end_date = current_date

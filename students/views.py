@@ -14,6 +14,7 @@ def main(request):
         'vip_students': vip_students(date.today()),
         'title': 'Students analytics',
         'highlighted': 'student',
+        'vip_students_2': vip_students_2(date.today()),
     }
     return TemplateResponse(request, "analytics_students.html", params)
 
@@ -32,7 +33,6 @@ def vip_students(current_date):
     for i in result:
         if i not in final_result:
             final_result.append(i)
-    print(final_result)
     print(request_info(final_result, current_date))
     return request_info(final_result, current_date)
 
@@ -42,5 +42,25 @@ def request_info(students_params, current_date):
         paid_for__month=current_date.month, paid_for__year=current_date.year, student__name__in=students_params).values(
         'student__name', 'student__email').annotate(mesum=Sum('amount')).order_by()
     return info
+
+
+def vip_students_2(current_date):
+    my_students = Revenue.objects.filter(paid_for__year__in=[current_date.year - 1, current_date.year]).filter(
+        paid_for__month__in=[1, 2, 3, 4, 5, 9, 10, 11, 12]).values(
+        'student__name', 'paid_for__year', 'paid_for__month').distinct().order_by()
+    my_result, final_result = [], ''
+    for i in my_students:
+        my_result.append(i['student__name'])
+    for k, v in Counter(my_result).items():
+        if v >= 18:
+            final_result += k
+    return choose_students(final_result, current_date)
+
+
+def choose_students(important_students, current_date):
+    return Revenue.objects.filter(paid_for__year__in=[current_date.year - 1, current_date.year]).filter(
+        student__name=important_students).values(
+        'student__name', 'student__email').annotate(mysum=Sum('amount')).order_by()
+
 
 

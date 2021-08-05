@@ -17,6 +17,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 CORE_DIR = Path(__file__).resolve().parent
 
 
+#We have to add this to make passwords work! And it redirects you.
+LOGIN_REDIRECT_URL = '/'
+
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -45,6 +50,7 @@ INSTALLED_APPS = [
     'classes.apps.ClassesConfig',
     'revenue.apps.RevenueConfig',
     'phone_field',
+    'authentication.apps.AuthenticationConfig',
 ]
 
 MIDDLEWARE = [

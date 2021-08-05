@@ -3,7 +3,7 @@
 <div class="card card-body shadow border-0 table-wrapper table-responsive">
     <div class="d-flex mb-3">
         <button class="btn btn-sm px-3 btn-secondary ms-3">
-        VIP Students
+        VIP students studying > than in 2 groups
         </button>
     </div>
     <table class="table user-table table-hover align-items-center">
@@ -13,7 +13,7 @@
                     Student's Name
                 </th>
                 <th class="border-bottom">
-                    Country
+                    Email
                 </th>
                 <th class="border-bottom">
                     Current month payment
@@ -36,6 +36,49 @@
                 <td>
                     <span class="fw-normal d-flex align-items-center">
                         {{i.mesum}}
+                    </span>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="card card-body shadow border-0 table-wrapper table-responsive">
+    <div class="d-flex mb-3">
+        <button class="btn btn-sm px-3 btn-secondary ms-3">
+        VIP students studying > than 2 years
+        </button>
+    </div>
+    <table class="table user-table table-hover align-items-center">
+        <thead>
+            <tr>
+                <th class="border-bottom">
+                    Student's Name
+                </th>
+                <th class="border-bottom">
+                    Email
+                </th>
+                <th class="border-bottom">
+                    Current month payment
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for i in vip_students_2  %}
+            <tr>
+                <td>
+                    <span class="fw-bold">
+                        {{ i.student__name }}
+                    </span>
+                </td>
+                <td>
+                    <span class="fw-normal">
+                        {{ i.student__email }}
+                    </span>
+                </td>
+                <td>
+                    <span class="fw-normal d-flex align-items-center">
+                        {{i.mysum}}
                     </span>
                 </td>
             </tr>
