@@ -19,6 +19,7 @@ CORE_DIR = Path(__file__).resolve().parent
 
 #We have to add this to make passwords work! And it redirects you.
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 
 

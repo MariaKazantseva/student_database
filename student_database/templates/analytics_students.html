@@ -35,7 +35,7 @@
                 </td>
                 <td>
                     <span class="fw-normal d-flex align-items-center">
-                        {{i.mesum}}
+                        {{i.mysum}}
                     </span>
                 </td>
             </tr>
@@ -86,6 +86,20 @@
         </tbody>
     </table>
 </div>
+<div class="ct-lang"></div>
 {% endblock content %}
 {%block javascript%}
+<script>
+new Chartist.Bar('.ct-lang', {
+  labels: {{percentage_stud_lang.labels|safe}},
+  series: [{{percentage_stud_lang.series|safe}}]
+}, {
+  seriesBarDistance: 30,
+  reverseData: true,
+  horizontalBars: true,
+  axisY: {
+    offset: 80
+  }
+});
+</script>
 {%endblock javascript%}

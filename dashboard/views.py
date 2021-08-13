@@ -9,6 +9,7 @@ from django.template.response import TemplateResponse
 from revenue.models import Revenue
 
 
+@login_required()
 def dashboard(request):
     params = {
         'chart_revenue': get_chart_revenue(date.today().year, date.today()),
@@ -17,7 +18,6 @@ def dashboard(request):
         'rev_per_month': rev_per_month(date.today()),
         'percentage_of_students': group_type_percent(date.today()),
         'revenue_per_lang': revenue_per_lang(date.today()),
-        'perc_students_lang': perc_stud_lang(date.today()),
         'highlighted': 'dashboard',
         'title': 'Dashboard',
     }
@@ -82,11 +82,12 @@ def count_days(current_date):
 
 
 def comparison_perc(current_date, current_students):
-    percentage_current_students = round(100 - current_students*100/lets_count_students(previous_month(current_date)))
+    percentage_current_students = round((current_students*100/lets_count_students(previous_month(
+        current_date))) - 100)
     return {
         'percentage': abs(percentage_current_students),
         'color': 'text-danger' if percentage_current_students < 0 else 'text-success',
-        'arrow': 'fa-angle-down' if percentage_current_students < 0 else 'fa-angle-down'
+        'arrow': 'fa-angle-down' if percentage_current_students < 0 else 'fa-angle-up'
     }
 
 
@@ -140,27 +141,6 @@ def revenue_per_lang(current_date):
 
 
 
-def perc_stud_lang(current_date):
-    students_per_languages = Revenue.objects.filter(
-        paid_for__month=current_date.month, paid_for__year=current_date.year).values(
-        'classes__language__name', 'student__name').distinct().order_by()
-    #print(students_per_languages)
-    result = []
-    for i in students_per_languages:
-        result.append(i['classes__language__name'])
-    students_per_languages_chart = {'labels': [], 'series': []}
-    #print(Counter(result))
-    for i in Counter(result).values():
-        students_per_languages_chart['series'].append(round(100 * i / students_per_languages.count()))
-    for i in Counter(result).keys():
-        students_per_languages_chart['labels'].append(i)
-    return students_per_languages_chart
-
-
-def vip_per_time(current_date):
-    start_date = date(current_date.year - 2, current_date.month, current_date.day)
-    end_date = current_date
-    vip_people_time = Revenue.objects.filter(paid_for__range=(start_date, end_date)).values('student')
 
 
 

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from collections import Counter
 from django.db.models import Sum, Count
@@ -9,12 +10,14 @@ from revenue.models import Revenue
 from django.shortcuts import render
 
 
+@login_required()
 def main(request):
     params = {
         'vip_students': vip_students(date.today()),
         'title': 'Students analytics',
         'highlighted': 'student',
         'vip_students_2': vip_students_2(date.today()),
+        'percentage_stud_lang': percentage_stud_lang(date.today()),
     }
     return TemplateResponse(request, "analytics_students.html", params)
 
@@ -22,26 +25,24 @@ def main(request):
 def vip_students(current_date):
     profitable_students = Revenue.objects.filter(
         paid_for__month=current_date.month, paid_for__year=current_date.year).values(
-        'student__name', 'classes__pk').distinct()
-    vip_people, result = [], []
+        'student__name', 'student__email', 'classes__pk').annotate(mysum=Sum('amount')).order_by()
+    print(profitable_students)
+    temp, result = [], []
     for i in profitable_students:
-        vip_people.append(i['student__name'])
-        for n in vip_people:
-            if vip_people.count(n) > 1:
-                result.append(n)
-    final_result = []
-    for i in result:
-        if i not in final_result:
-            final_result.append(i)
-    print(request_info(final_result, current_date))
-    return request_info(final_result, current_date)
-
-
-def request_info(students_params, current_date):
-    info = Revenue.objects.filter(
-        paid_for__month=current_date.month, paid_for__year=current_date.year, student__name__in=students_params).values(
-        'student__name', 'student__email').annotate(mesum=Sum('amount')).order_by()
-    return info
+        if i['student__name'] in temp:
+            continue
+        count = 0
+        tsum = 0
+        for n in profitable_students:
+            if i['student__name'] == n['student__name']:
+                tsum += n['mysum']
+                count += 1
+            if count > 1:
+                i['mysum'] = tsum
+                result.append(i)
+                temp.append(i['student__name'])
+    return result
+    print(result)
 
 
 def vip_students_2(current_date):
@@ -63,4 +64,18 @@ def choose_students(important_students, current_date):
         'student__name', 'student__email').annotate(mysum=Sum('amount')).order_by()
 
 
-
+def percentage_stud_lang(current_date):
+    students_per_languages = Revenue.objects.filter(
+        paid_for__month=current_date.month, paid_for__year=current_date.year).values(
+        'classes__language__name', 'student__name').distinct().order_by()
+    result = []
+    for i in students_per_languages:
+        result.append(i['classes__language__name'])
+    print(Counter(result).values())
+    students_per_languages_chart = {'labels': [], 'series': []}
+    for i in Counter(result).values():
+        students_per_languages_chart['series'].append(i)
+    for i in Counter(result).keys():
+        students_per_languages_chart['labels'].append(i)
+    print(students_per_languages_chart)
+    return students_per_languages_chart

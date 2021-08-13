@@ -6,7 +6,7 @@
             <div class="d-block">
                 <div class="h6 fw-normal text-gray mb-2"></div>
                 <h2 class="h4">
-                    The most successful instructor of the months is
+                    The most successful instructor of the month is
                     <span class="text-warning"> {{ revenue_per_teacher.best_teacher }} </span>
                 </h2>
                 <div class="small mt-2">
@@ -18,32 +18,36 @@
             <div class="ms-auto">
                 <div class="d-flex align-items-center mb-2">
                     <span class="fw-normal small me-3">
-                        Он много работает.
-                    </span> <span class="small fw-bold text-dark ms-auto">100%</span>
+                        Experience (years)
+                    </span> <span class="small fw-bold text-dark ms-auto">{{ revenue_per_teacher.experience }}</span>
                 </div>
                 <div class="d-flex align-items-center mb-2">
                     <span class="fw-normal small me-3">
-                        Терпеливо объясняет.
-                    </span> <span class="small fw-bold text-dark ms-auto">100%</span>
+                        Country of origin
+                    </span> <span class="small fw-bold text-dark ms-auto">{{ revenue_per_teacher.country }}</span>
                 </div><div class="d-flex align-items-center mb-2">
                 <span class="fw-normal small me-3">
-                    Никогда не отменяет занятия.
-                </span> <span class="small fw-bold text-dark ms-auto">100%</span>
+                    Education
+                </span> <span class="small fw-bold text-dark ms-auto">{{ revenue_per_teacher.edu }}</span>
             </div>
                 <div class="d-flex align-items-center mb-2">
                     <span class="fw-normal small me-3">
-                        Строгий.
-                    </span> <span class="small fw-bold text-dark ms-auto">95%</span>
+                        Specialization
+                    </span> <span class="small fw-bold text-dark ms-auto">{{ revenue_per_teacher.spec }}</span>
                 </div><div class="d-flex align-items-center mb-2">
                 <span class="fw-normal small me-3">
-                    Задает мало домашки.
-                </span> <span class="small fw-bold text-dark ms-auto">5%</span>
+                    Languages
+                </span> <span class="small fw-bold text-dark ms-auto">{{ revenue_per_teacher.lang }}</span>
             </div>
             </div>
         </div>
         <div class="card-body p-2 py-5" style="position: relative;">
             <div class="money-teachers"></div>
-                    <div class="apexcharts-tooltip-title" style="font-family: Inter; font-size: 100px;">С Днем Рождения!</div><div class="apexcharts-tooltip-series-group apexcharts-active" style="order: 1; display: flex;"><span class="apexcharts-tooltip-marker" style="background-color: rgba(77, 74, 232, 0.85);"></span><div class="apexcharts-tooltip-text" style="font-family: Inter; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-label"</span><span class="apexcharts-tooltip-text-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div></div><div class="apexcharts-yaxistooltip apexcharts-yaxistooltip-0 apexcharts-yaxistooltip-left apexcharts-theme-light"><div class="apexcharts-yaxistooltip-text"></div></div><div class="apexcharts-toolbar" style="top: 0px; right: 3px;"><div class="apexcharts-menu-icon" title="Menu"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0V0z"></path><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg></div><div class="apexcharts-menu"><div class="apexcharts-menu-item exportSVG" title="Download SVG"></div><div class="apexcharts-menu-item exportPNG" title="Download PNG"></div><div class="apexcharts-menu-item exportCSV" title="Download CSV"></div></div></div></div></div><div class="resize-triggers"><div class="expand-trigger"><div style="width: 475px; height: 612px;"></div></div><div class="contract-trigger"></div></div></div>
+                    <div class="apexcharts-tooltip-title" style="font-family: Inter; font-size: 100px;"></div><div class="apexcharts-tooltip-series-group apexcharts-active" style="order: 1; display: flex;"><span class="apexcharts-tooltip-marker" style="background-color: rgba(77, 74, 232, 0.85);"></span><div class="apexcharts-tooltip-text" style="font-family: Inter; font-size: 12px;"><div class="apexcharts-tooltip-y-group"><span class="apexcharts-tooltip-text-label"</span><span class="apexcharts-tooltip-text-value"></span></div><div class="apexcharts-tooltip-z-group"><span class="apexcharts-tooltip-text-z-label"></span><span class="apexcharts-tooltip-text-z-value"></span></div></div></div></div><div class="apexcharts-yaxistooltip apexcharts-yaxistooltip-0 apexcharts-yaxistooltip-left apexcharts-theme-light"><div class="apexcharts-yaxistooltip-text"></div></div><div class="apexcharts-toolbar" style="top: 0px; right: 3px;">
+        <div class="apexcharts-menu">
+            <div class="apexcharts-menu-item exportSVG" title="Download SVG">
+
+            </div><div class="apexcharts-menu-item exportPNG" title="Download PNG"></div><div class="apexcharts-menu-item exportCSV" title="Download CSV"></div></div></div></div></div><div class="resize-triggers"><div class="expand-trigger"><div style="width: 500px; height: 0px;"></div></div><div class="contract-trigger"></div></div></div>
 {% endblock content %}
 {% block javascript %}
 <script>
@@ -51,11 +55,11 @@ new Chartist.Bar('.money-teachers', {
   labels: {{ revenue_per_teacher.chart.labels|safe }},
   series: [{{ revenue_per_teacher.chart.series|safe  }}]
 }, {
-  seriesBarDistance: 10,
+  seriesBarDistance: 100,
   reverseData: true,
   horizontalBars: true,
   axisY: {
-    offset: 70
+    offset: 100
   }
 });
 </script>
