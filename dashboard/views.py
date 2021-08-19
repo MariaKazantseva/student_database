@@ -7,6 +7,9 @@ from datetime import date, datetime, timedelta
 from django.db.models.functions import TruncMonth, TruncYear, Trunc
 from django.template.response import TemplateResponse
 from revenue.models import Revenue
+from student_database.settings import BASE_DIR
+import pandas as pd
+from students.models import Students
 
 
 @login_required()
@@ -21,7 +24,23 @@ def dashboard(request):
         'highlighted': 'dashboard',
         'title': 'Dashboard',
     }
+    #load_excel()
     return TemplateResponse(request, "dashboard.html", params)
+
+
+def load_excel():
+    my_pd = pd.read_excel(BASE_DIR / 'contacts_school.xlsx')
+    my_pd['phone_number'] = my_pd['phone_number'].fillna(0)
+    my_pd['additional_info'] = my_pd['additional_info'].fillna('')
+    for k, v in my_pd.iterrows():
+        student = Students()
+        student.name = v['last_name'] + ' ' + v['name']
+        student.gender = 'n'
+        student.age = date(2011, 1, 1)
+        student.education = ''
+        student.additional_info = v['additional_info']
+        student.whatsapp = int(v['phone_number'])
+        student.save()
 
 
 def get_chart_revenue(year, current_date):
@@ -33,8 +52,8 @@ def get_chart_revenue(year, current_date):
         chart_revenue['series'].append(i['mysum'])
     return {
         'first': chart_revenue,
-        'second': chart_revenue['series'][-1],
-        'comparison': comparison_rev(chart_revenue)
+        'second': 0 if len(chart_revenue['series']) == 0 else chart_revenue['series'][-1],
+        'comparison': 0 if len(chart_revenue['series']) == 0 else comparison_rev(chart_revenue)
     }
 
 
@@ -82,8 +101,11 @@ def count_days(current_date):
 
 
 def comparison_perc(current_date, current_students):
-    percentage_current_students = round((current_students*100/lets_count_students(previous_month(
-        current_date))) - 100)
+    temp = lets_count_students(previous_month(current_date))
+    if temp:
+        percentage_current_students = round((current_students*100/temp) - 100)
+    else:
+        percentage_current_students = 0
     return {
         'percentage': abs(percentage_current_students),
         'color': 'text-danger' if percentage_current_students < 0 else 'text-success',

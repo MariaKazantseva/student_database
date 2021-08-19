@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.db import models
 from django.db.models import Sum
 from phone_field import PhoneField
+import pandas as pd
 
 
 class Students(models.Model):

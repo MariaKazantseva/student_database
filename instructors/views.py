@@ -28,7 +28,6 @@ def revenue_per_teacher(current_date):
         'classes__instructors__country', 'classes__instructors__education',
         'classes__instructors__specialization', 'classes__instructors__languages__name').annotate(
         mysum=Sum('amount')).order_by('-mysum')
-    print(money_teachers)
     result = {'labels': [], 'series': []}
     a, b, c, d, e, f = 0, [], [], [], [], []
     for i in money_teachers:
@@ -41,15 +40,14 @@ def revenue_per_teacher(current_date):
         d.append(i['classes__instructors__education'])
         e.append(i['classes__instructors__specialization'])
         f.append(i['classes__instructors__languages__name'])
-    print(result)
     return {
         'chart': result,
-        'best_teacher': result['labels'][0],
-        'experience': b[0],
-        'country': c[0],
-        'edu': d[0],
-        'spec': e[0],
-        'lang': f[0]
+        'best_teacher': '' if len(result['labels']) == 0 else result['labels'][0],
+        'experience': 0 if len(b) == 0 else b[0],
+        'country': '' if len (c) == 0 else c[0],
+        'edu': '' if len (d) == 0 else d[0],
+        'spec': '' if len(e) == 0 else e[0],
+        'lang': '' if len(f) == 0 else f[0]
     }
 
 
