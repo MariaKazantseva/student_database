@@ -2,7 +2,6 @@ from django.contrib import admin
 from django.db import models
 from django.db.models import Sum
 from phone_field import PhoneField
-import pandas as pd
 
 
 class Students(models.Model):
@@ -11,6 +10,7 @@ class Students(models.Model):
     country = models.CharField(max_length=100, default="Russia", verbose_name="Страна")
     gender = models.CharField(max_length=1, choices=your_gender)
     age = models.DateField()
+    interest = models.CharField(max_length=100, verbose_name="Интерес", null=True, blank=True)
     education = models.CharField(max_length=100, verbose_name="Образование")
     additional_info = models.TextField(max_length=10000, verbose_name="Дополнительная информация", null=True, blank=True)
     grade = models.IntegerField(default=0, verbose_name="Класс в школе")
